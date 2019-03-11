@@ -20,22 +20,23 @@ int main(int argc, char** argv ) {
     //}
 	
 	cout << "Opening file a.txt\n"; // << argv[1] << "\n";
-	
-	ifstream f("a.txt");
-
+		char * s = new char [3000];
+	//ifstream f("a.txt");
+	FILE* f;
+	f= fopen("a.txt","rb");
     QueryPerformanceFrequency((LARGE_INTEGER *)&freq);// запрашиваем число тиков в 1 сек
 
 
 	QueryPerformanceCounter((LARGE_INTEGER *)&t1);// смотрим время после окончания цикла
 
-	while ( ! f.eof() ) {
-		getline(f, str);
+	while ( ! feof(f) ) {
+		fgets(s,3000,f);
 		g++;
 	}
-
+	
 
 	QueryPerformanceCounter((LARGE_INTEGER *)&t2);// смотрим время после окончания цикла
-
-	cout << g << " strok" << "\n Time spent:" << (t2-t1)/(1.*freq);
+	fclose(f);
+	cout << g << str << "\n Time spent:" << setprecision(3) << (t2-t1)/(1.*freq)<< " sec " << "\n File a.txt has " << g << " lines .";
 	return 0;
 }
